@@ -3,6 +3,12 @@
   "version": "1.0.0",
   "description": "My practice project #2 for the Hexlet.io FE JS course.",
   "main": "index.js",
+  "bin": {
+    "gendiff": "dist/bin/gendiff.js"
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -20,5 +26,19 @@
   "bugs": {
     "url": "https://github.com/DaggLo/frontend-project-lvl2/issues"
   },
-  "homepage": "https://github.com/DaggLo/frontend-project-lvl2#readme"
+  "homepage": "https://github.com/DaggLo/frontend-project-lvl2#readme",
+  "dependencies": {
+    "commander": "^4.1.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.7.4",
+    "@babel/core": "^7.7.4",
+    "@babel/node": "^7.7.4",
+    "@babel/preset-env": "^7.7.4",
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.7.2",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-babel": "^5.3.0",
+    "eslint-plugin-import": "^2.18.2"
+  }
 }
