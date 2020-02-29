@@ -1,0 +1,24 @@
+{
+  "name": "gendiff",
+  "version": "1.0.0",
+  "description": "My practice project #2 for the Hexlet.io FE JS course.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DaggLo/frontend-project-lvl2.git"
+  },
+  "keywords": [
+    "Hexlet",
+    "parctice project",
+    "gendiff"
+  ],
+  "author": "DaggLo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DaggLo/frontend-project-lvl2/issues"
+  },
+  "homepage": "https://github.com/DaggLo/frontend-project-lvl2#readme"
+}
