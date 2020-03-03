@@ -1,5 +1,10 @@
 #!/usr/bin/env node
 
-import brainGames from '..';
+import program from 'commander';
+import { version } from '../../package.json';
 
-brainGames();
+program
+  .version(version)
+  .description('Compares two configuration files and shows a difference.');
+
+program.parse(process.argv);
