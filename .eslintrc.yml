@@ -1,21 +1,38 @@
 ---
 
-# https://github.com/babel/babel-eslint
-parser: babel-eslint
+# https://github.com/babel/babel/tree/main/eslint/babel-eslint-parser
+parser: "@babel/eslint-parser"
+
+# These options are for default parser
+# vparserOptions:
+#   ecmaVersion: 11
+#   sourceType: module
 
 env:
   node: true
+  es2020: true
 
 plugins:
-  # https://github.com/babel/eslint-plugin-babel
-  - babel
+  # https://github.com/babel/babel/tree/main/eslint/babel-eslint-plugin
+  - "@babel"
 
 extends:
-  - 'airbnb-base'
-  - 'plugin:import/errors'
-  - 'plugin:import/warnings'
+  - airbnb-base
+  - "plugin:import/errors"
+  - "plugin:import/warnings"
 
 rules:
   no-console: off
+  # https://github.com/babel/babel/tree/main/eslint/babel-eslint-plugin
+  new-cap: off
+  no-invalid-this: off
+  no-unused-expressions: off
+  object-curly-spacing: off
+  semi: off
+  "@babel/new-cap": error
+  "@babel/no-invalid-this": error
+  "@babel/no-unused-expressions": error
+  "@babel/object-curly-spacing": error
+  "@babel/semi": error
 
 reportUnusedDisableDirectives: true
