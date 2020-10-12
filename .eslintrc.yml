@@ -15,9 +15,11 @@ env:
 plugins:
   # https://github.com/babel/babel/tree/main/eslint/babel-eslint-plugin
   - "@babel"
+  - jest
 
 extends:
   - airbnb-base
+  - "plugin:jest/recommended"
   - "plugin:import/errors"
   - "plugin:import/warnings"
 
