@@ -1,20 +1,15 @@
 ---
 
-# https://github.com/babel/babel/tree/main/eslint/babel-eslint-parser
-parser: "@babel/eslint-parser"
-
 # These options are for default parser
-# vparserOptions:
-#   ecmaVersion: 11
-#   sourceType: module
+parserOptions:
+  ecmaVersion: 11
+  sourceType: module
 
 env:
   node: true
   es2020: true
 
 plugins:
-  # https://github.com/babel/babel/tree/main/eslint/babel-eslint-plugin
-  - "@babel"
   - jest
 
 extends:
@@ -25,16 +20,5 @@ extends:
 
 rules:
   no-console: off
-  # https://github.com/babel/babel/tree/main/eslint/babel-eslint-plugin
-  new-cap: off
-  no-invalid-this: off
-  no-unused-expressions: off
-  object-curly-spacing: off
-  semi: off
-  "@babel/new-cap": error
-  "@babel/no-invalid-this": error
-  "@babel/no-unused-expressions": error
-  "@babel/object-curly-spacing": error
-  "@babel/semi": error
 
 reportUnusedDisableDirectives: true
