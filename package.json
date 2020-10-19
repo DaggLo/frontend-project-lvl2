@@ -2,12 +2,12 @@
   "name": "gendiff",
   "version": "1.0.0",
   "description": "My practice project #2 for the Hexlet.io FE JS course.",
-  "main": "dist/index.js",
+  "main": "src/index.js",
   "bin": {
-    "gendiff": "dist/bin/gendiff.js"
+    "gendiff": "src/bin/gendiff.js"
   },
   "files": [
-    "dist"
+    "src"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
