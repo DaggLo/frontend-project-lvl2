@@ -27,6 +27,7 @@
   "bugs": {
     "url": "https://github.com/DaggLo/frontend-project-lvl2/issues"
   },
+  "type": "module",
   "homepage": "https://github.com/DaggLo/frontend-project-lvl2#readme",
   "dependencies": {
     "commander": "^6.1.0"
