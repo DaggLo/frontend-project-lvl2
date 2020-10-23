@@ -1,14 +1,13 @@
 {
   "name": "gendiff",
-  "version": "1.0.0",
-  "description": "My practice project #2 for the Hexlet.io FE JS course.",
-  "main": "src/index.js",
+  "version": "0.1.0",
+  "description": "Compare two text files and get their diff.",
   "bin": {
-    "gendiff": "src/bin/gendiff.js"
+    "gendiff": "bin/gendiff.js"
   },
-  "files": [
-    "src"
-  ],
+  "engines": {
+    "node": ">=14"
+  },
   "scripts": {
     "test": "npx -n --experimental-vm-modules jest",
     "prepublishOnly": "npm run test"
