@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import gendiff, { generateDiff, toFormatedString } from '../src/main';
+import gendiff, { generateDiff, toFormatedString } from '../src/main.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
