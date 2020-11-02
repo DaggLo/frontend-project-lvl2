@@ -10,7 +10,7 @@
   },
   "scripts": {
     "test": "npx -n --experimental-vm-modules jest",
-    "prepublishOnly": "npm run test"
+    "prepublishOnly": "npx eslint . && npm test"
   },
   "repository": {
     "type": "git",
