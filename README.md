@@ -20,8 +20,6 @@ While this is a practice package it is not meant to be published into NPM reposi
 2. Run inside downloaded directory: `npm install` (or `make install` if you have `make`).
 3. Run `sudo npm link` to install the app globally.
 
-<a href="https://asciinema.org/a/XpFytfUP8BaM6MB8syTp4haF7" target="_blank"><img src="https://asciinema.org/a/XpFytfUP8BaM6MB8syTp4haF7.svg" alt="Ascinema of the installation process" width="200px"/></a>
-
 ## Usage
 As a command-line utility `gendiff` may take parameters and/or various optional flags (options). Generally the utility syntax looks like this:
 ```
@@ -46,7 +44,7 @@ gendiff temp/file1.json file2.json
 gendiff -f ../src/1.txt /home/user/2.txt
 ```
 
-<a href="https://asciinema.org/a/4Slbojfj9j4LFi3VChTANEPEC" target="_blank"><img src="https://asciinema.org/a/4Slbojfj9j4LFi3VChTANEPEC.svg" alt="Ascinema of the usage process" width="200px"/></a>
+<a href="https://asciinema.org/a/r7Xyi4JDu6qp5o3rHuEELuaVk" target="_blank"><img src="https://asciinema.org/a/r7Xyi4JDu6qp5o3rHuEELuaVk.svg" alt="Ascinema of the usage process" width="200px"/></a>
 
 ## License
 ISC License
