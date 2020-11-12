@@ -1,7 +1,8 @@
 # The GenDiff (practice package).
 
-[![Maintainability](https://api.codeclimate.com/v1/badges/38127cb38a1582e550d4/maintainability)](https://codeclimate.com/github/DaggLo/frontend-project-lvl2/maintainability)
 ![Node CI](https://github.com/DaggLo/frontend-project-lvl2/workflows/Node%20CI/badge.svg)
+[![Maintainability](https://api.codeclimate.com/v1/badges/38127cb38a1582e550d4/maintainability)](https://codeclimate.com/github/DaggLo/frontend-project-lvl2/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/38127cb38a1582e550d4/test_coverage)](https://codeclimate.com/github/DaggLo/frontend-project-lvl2/test_coverage)
 
 This is my second practice project of the [Hexlet.io front-end JS course](https://ru.hexlet.io/professions/frontend/projects/46).
 It's main goal was to get experience of clean coding, building full-fledged app architecture and how to setup dev environment.
