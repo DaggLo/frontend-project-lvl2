@@ -5,7 +5,7 @@ start:
 	bin/gendiff.js
 
 test:
-	npx -n --experimental-vm-modules jest --watch
+	npm test -- --watch
 
 test-coverage:
 	npm test -- --coverage --coverageProvider=v8
