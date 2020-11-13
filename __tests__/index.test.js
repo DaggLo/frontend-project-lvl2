@@ -34,22 +34,24 @@ describe('Getting parsed data.', () => {
   });
 });
 
-describe('Overall flow.', () => {
-  const path1 = getFixturePath('flat1.json');
-  const path2 = getFixturePath('flat2.json');
-  const actual = gendiff(path1, path2);
-  const expected = [
-    '{',
-    '  - follow: false',
-    '    host: hexlet.io',
-    '  - proxy: 123.234.53.22',
-    '  - timeout: 50',
-    '  + timeout: 20',
-    '  + verbose: true',
-    '}',
-  ].join('\n');
+describe('Test overall module flow.', () => {
+  describe('Compare two JSON files.', () => {
+    const path1 = getFixturePath('flat1.json');
+    const path2 = getFixturePath('flat2.json');
+    const actual = gendiff(path1, path2);
+    const expected = [
+      '{',
+      '  - follow: false',
+      '    host: hexlet.io',
+      '  - proxy: 123.234.53.22',
+      '  - timeout: 50',
+      '  + timeout: 20',
+      '  + verbose: true',
+      '}',
+    ].join('\n');
 
-  test('should work', () => {
-    expect(actual).toEqual(expected);
+    test('should work', () => {
+      expect(actual).toEqual(expected);
+    });
   });
 });

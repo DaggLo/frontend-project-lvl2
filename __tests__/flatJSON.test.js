@@ -1,7 +1,6 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-// import gendiff, { generateDiff, toFormatedString } from '../src/main.js';
 import { generateDiff, toFormatedString } from '../src/flatJSON.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -13,6 +12,7 @@ describe('Test main functionality.', () => {
   const data2 = JSON.parse(readFile('flat2.json'));
 
   describe('Generating diff.', () => {
+    const actual = generateDiff(data1, data2);
     const expected = [
       [' ', 'host', 'hexlet.io'],
       ['-', 'timeout', 50],
@@ -23,12 +23,19 @@ describe('Test main functionality.', () => {
     ];
 
     test('should work', () => {
-      expect(generateDiff(data1, data2)).toEqual(expected);
+      expect(actual).toEqual(expected);
     });
   });
 
   describe('Convert to formatted string.', () => {
-    const actual = generateDiff(data1, data2);
+    const actual = [
+      [' ', 'host', 'hexlet.io'],
+      ['-', 'timeout', 50],
+      ['+', 'timeout', 20],
+      ['-', 'proxy', '123.234.53.22'],
+      ['-', 'follow', false],
+      ['+', 'verbose', true],
+    ];
     const expected = [
       '{',
       '  - follow: false',
