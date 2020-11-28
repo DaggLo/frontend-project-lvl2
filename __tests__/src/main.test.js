@@ -1,10 +1,10 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { generateDiff, parse, toFormatedString } from '../src/flatJSON.js';
+import { generateDiff, getData, toFormatedString } from '../../src/main.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
+const getFixturePath = (filename) => path.join(__dirname, '../..', '__fixtures__', filename);
 const readFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf8');
 
 describe('Generating diff.', () => {
@@ -23,6 +23,19 @@ describe('Generating diff.', () => {
     ];
 
     expect(actual).toEqual(expected);
+  });
+});
+
+describe('Getting data.', () => {
+  test('Flat JSON', () => {
+    const actual1 = getData(__dirname, '../../__fixtures__/flat1.json');
+    const actual2 = getData(__dirname, '../../__fixtures__/flat2.json');
+
+    const expected1 = '{\n  "host": "hexlet.io",\n  "timeout": 50,\n  "proxy": "123.234.53.22",\n  "follow": false\n}\n';
+    const expected2 = '{\n  "timeout": 20,\n  "verbose": true,\n  "host": "hexlet.io"\n}\n';
+
+    expect(actual1).toEqual(expected1);
+    expect(actual2).toEqual(expected2);
   });
 });
 
@@ -48,29 +61,5 @@ describe('Convert to formatted string.', () => {
 
   test('Should work.', () => {
     expect(toFormatedString(actual)).toBe(expected);
-  });
-});
-
-describe('Parsing data.', () => {
-  const data1 = readFile('flat1.json');
-  const data2 = readFile('flat2.json');
-
-  test('Should work.', () => {
-    const actual1 = parse(data1);
-    const actual2 = parse(data2);
-    const expected1 = {
-      host: 'hexlet.io',
-      timeout: 50,
-      proxy: '123.234.53.22',
-      follow: false,
-    };
-    const expected2 = {
-      timeout: 20,
-      verbose: true,
-      host: 'hexlet.io',
-    };
-
-    expect(actual1).toEqual(expected1);
-    expect(actual2).toEqual(expected2);
   });
 });
