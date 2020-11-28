@@ -1,7 +1,8 @@
 import process from 'process';
 
-import { generateDiff, parse, toFormatedString } from './src/flatJSON.js';
-import { isValidFilePath, getData } from './src/utils.js';
+import parse from './src/parsers/flatJSON.js';
+import { generateDiff, getData, toFormatedString } from './src/main.js';
+import isValidFilePath from './src/utils.js';
 
 const __dirname = process.cwd();
 

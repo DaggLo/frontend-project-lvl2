@@ -1,11 +1,4 @@
 import fs from 'fs';
-import path from 'path';
-
-const getData = (dirname, filePath) => {
-  const actualPath = path.resolve(dirname, filePath);
-  const data = fs.readFileSync(actualPath, 'utf8');
-  return data;
-};
 
 const isValidFilePath = (filePath) => {
   if (!filePath || typeof filePath !== 'string') {
@@ -23,7 +16,4 @@ const isValidFilePath = (filePath) => {
   return true;
 };
 
-export {
-  getData,
-  isValidFilePath,
-};
+export default isValidFilePath;

@@ -1,3 +1,6 @@
+import fs from 'fs';
+import path from 'path';
+
 const generateDiff = (data1, data2) => {
   const keys1 = Object.keys(data1);
   const keys2 = Object.keys(data2);
@@ -19,7 +22,11 @@ const generateDiff = (data1, data2) => {
   return completedUnion;
 };
 
-const parse = (data) => JSON.parse(data);
+const getData = (dirname, filePath) => {
+  const actualPath = path.resolve(dirname, filePath);
+  const data = fs.readFileSync(actualPath, 'utf8');
+  return data;
+};
 
 const toFormatedString = (arr) => {
   const margin = '  ';
@@ -44,6 +51,6 @@ const toFormatedString = (arr) => {
 
 export {
   generateDiff,
-  parse,
+  getData,
   toFormatedString,
 };
