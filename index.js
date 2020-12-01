@@ -11,7 +11,7 @@ import {
 const __dirname = process.cwd();
 
 export default (...theArgs) => {
-  if (!isValidArgs(theArgs)) {
+  if (!isValidArgs(...theArgs)) {
     console.log('There are more or less than two arguments provided or they are invalid.');
     return null;
   }
