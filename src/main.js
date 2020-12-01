@@ -1,6 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 
+import isValidFilePath from './utils.js';
+
 const generateDiff = (data1, data2) => {
   const keys1 = Object.keys(data1);
   const keys2 = Object.keys(data2);
@@ -28,6 +30,15 @@ const getData = (dirname, filePath) => {
   return data;
 };
 
+const isValidArgs = (...theArgs) => {
+  if (theArgs.length !== 2) {
+    console.log('There must be not more or less than two filepaths to compare.');
+    return false;
+  }
+
+  return theArgs.every(isValidFilePath);
+};
+
 const toFormatedString = (arr) => {
   const margin = '  ';
   const padding = ' ';
@@ -52,5 +63,6 @@ const toFormatedString = (arr) => {
 export {
   generateDiff,
   getData,
+  isValidArgs,
   toFormatedString,
 };
