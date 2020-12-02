@@ -33,7 +33,9 @@
   },
   "homepage": "https://github.com/DaggLo/frontend-project-lvl2#readme",
   "dependencies": {
-    "commander": "^6.2.0"
+    "@hexlet/tagged-types": "^1.1.0",
+    "commander": "^6.2.0",
+    "js-yaml": "^3.14.0"
   },
   "devDependencies": {
     "eslint": "^7.13.0",

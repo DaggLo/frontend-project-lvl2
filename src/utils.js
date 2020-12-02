@@ -1,4 +1,20 @@
 import fs from 'fs';
+import path from 'path';
+
+import parsers from './parsers.js';
+
+const makeTag = (arg) => path.extname(arg).toLowerCase().slice(1);
+
+const isSupportedFileExtension = (arg) => {
+  const extension = makeTag(arg);
+  const result = Object.prototype.hasOwnProperty.call(parsers, extension);
+
+  if (!result) {
+    console.log(`The .${extension} files are not supported.`);
+  }
+
+  return result;
+};
 
 const isValidFilePath = (filePath) => {
   if (!filePath || typeof filePath !== 'string') {
@@ -16,4 +32,4 @@ const isValidFilePath = (filePath) => {
   return true;
 };
 
-export default isValidFilePath;
+export { isSupportedFileExtension, isValidFilePath, makeTag };

@@ -1,7 +1,9 @@
 import fs from 'fs';
 import path from 'path';
+import { attach, typeTag, contents } from '@hexlet/tagged-types';
 
-import isValidFilePath from './utils.js';
+import { isSupportedFileExtension, isValidFilePath, makeTag } from './utils.js';
+import parsers from './parsers.js';
 
 const generateDiff = (data1, data2) => {
   const keys1 = Object.keys(data1);
@@ -36,7 +38,20 @@ const isValidArgs = (...theArgs) => {
     return false;
   }
 
-  return theArgs.every(isValidFilePath);
+  return theArgs.every(isValidFilePath) && theArgs.every(isSupportedFileExtension);
+};
+
+const parse = (taggedData) => {
+  const tag = typeTag(taggedData);
+  const data = contents(taggedData);
+  const parser = parsers[tag];
+
+  return parser(data);
+};
+
+const tagData = (data, filePath) => {
+  const tag = makeTag(filePath);
+  return attach(tag, data);
 };
 
 const toFormatedString = (arr) => {
@@ -64,5 +79,7 @@ export {
   generateDiff,
   getData,
   isValidArgs,
+  parse,
+  tagData,
   toFormatedString,
 };
