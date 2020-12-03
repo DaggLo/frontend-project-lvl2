@@ -13,7 +13,7 @@ It's main goal was to get experience of clean coding, building full-fledged app 
 - Node.js
 - Make (optional)
 
-Developed and tested on NODE version 14.13.1 and NPM version 6.14.8.
+Developed and tested on NODE version 15.3.0 and NPM version 7.0.14.
 
 ## Installation
 While this is a practice package it is not meant to be published into NPM repository. Due to that follow these steps to install:
@@ -37,12 +37,19 @@ Options:
   -h, --help           display help for command
 ```
 
+### Supported file types.
+- `.json`
+- `.yaml`
+- `.yml`
+-_... to be completed._
+
 ### Usage examples
 ```
 gendiff -V
 gendiff --help
 gendiff temp/file1.json file2.json
-gendiff -f ../src/1.txt /home/user/2.txt
+gendiff temp/file1.yaml file2.json
+gendiff -f ../src/1.json /home/user/2.yml
 ```
 
 <a href="https://asciinema.org/a/r7Xyi4JDu6qp5o3rHuEELuaVk" target="_blank"><img src="https://asciinema.org/a/r7Xyi4JDu6qp5o3rHuEELuaVk.svg" alt="Ascinema of the usage process" width="200px"/></a>
