@@ -88,10 +88,9 @@ describe('Processing not valid args.', () => {
     expect(gendiff('./bin', flatYaml1)).toBeNull();
   });
 
-  test('Too many or little of args.', () => {
+  test('Lack of args.', () => {
     expect(gendiff()).toBeNull();
     expect(gendiff(flatJson1)).toBeNull();
-    expect(gendiff(flatJson1, flatJson2, flatYaml1)).toBeNull();
   });
 
   test('Unsupported files.', () => {
