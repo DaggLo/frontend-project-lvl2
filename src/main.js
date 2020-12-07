@@ -34,7 +34,7 @@ const getData = (dirname, filePath) => {
 
 const isValidArgs = (...theArgs) => {
   if (theArgs.length !== 2) {
-    console.log('There must be not more or less than two filepaths to compare.');
+    console.log('There must be two filepaths to compare.');
     return false;
   }
 
