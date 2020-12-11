@@ -94,8 +94,12 @@ describe('Processing not valid args.', () => {
   });
 
   test('Unsupported files.', () => {
-    const unsupportedFile = getFixturePath('unsupp.abc');
+    const unsupportedFile1 = getFixturePath('unsupp.abc');
+    const unsupportedFile2 = getFixturePath('unsupp.');
+    const unsupportedFile3 = getFixturePath('unsupp');
 
-    expect(gendiff(flatJson1, unsupportedFile)).toBeNull();
+    expect(gendiff(flatJson1, unsupportedFile1)).toBeNull();
+    expect(gendiff(flatJson1, unsupportedFile2)).toBeNull();
+    expect(gendiff(flatJson1, unsupportedFile3)).toBeNull();
   });
 });
