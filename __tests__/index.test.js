@@ -88,11 +88,6 @@ describe('Processing not valid args.', () => {
     expect(gendiff('./bin', flatYaml1)).toBeNull();
   });
 
-  test('Lack of args.', () => {
-    expect(gendiff()).toBeNull();
-    expect(gendiff(flatJson1)).toBeNull();
-  });
-
   test('Unsupported files.', () => {
     const unsupportedFile1 = getFixturePath('unsupp.abc');
     const unsupportedFile2 = getFixturePath('unsupp.');
