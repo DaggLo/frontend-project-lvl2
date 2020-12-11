@@ -45,14 +45,8 @@ const getData = (dirname, filePath) => {
   return data;
 };
 
-const isValidArgs = (...theArgs) => {
-  if (theArgs.length !== 2) {
-    console.log('There must be two filepaths to compare.');
-    return false;
-  }
-
-  return theArgs.every(isValidFilePath) && theArgs.every(isSupportedFileExtension);
-};
+const isValidArgs = (...theArgs) => (
+  theArgs.every(isValidFilePath) && theArgs.every(isSupportedFileExtension));
 
 const parse = (taggedData) => {
   const tag = typeTag(taggedData);
