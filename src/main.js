@@ -1,9 +1,8 @@
 import fs from 'fs';
 import path from 'path';
-import { attach, typeTag, contents } from '@hexlet/tagged-types';
 import _ from 'lodash';
 
-import { isSupportedFileExtension, isValidFilePath, makeTag } from './utils.js';
+import { getTag, getData } from './tags.js';
 import formaters from './formaters.js';
 import parsers from './parsers.js';
 import Node from './classes/Node.js';
@@ -39,26 +38,18 @@ const makeDiffTree = (data1, data2) => {
   return completedAst;
 };
 
-const getData = (dirname, filePath) => {
+const readData = (dirname, filePath) => {
   const actualPath = path.resolve(dirname, filePath);
   const data = fs.readFileSync(actualPath, 'utf8');
   return data;
 };
 
-const isValidArgs = (...theArgs) => (
-  theArgs.every(isValidFilePath) && theArgs.every(isSupportedFileExtension));
-
 const parse = (taggedData) => {
-  const tag = typeTag(taggedData);
-  const data = contents(taggedData);
+  const tag = getTag(taggedData);
+  const data = getData(taggedData);
   const parser = parsers[tag];
 
   return parser(data);
-};
-
-const tagData = (data, filePath) => {
-  const tag = makeTag(filePath);
-  return attach(tag, data);
 };
 
 const render = (ast, formater) => {
@@ -68,9 +59,7 @@ const render = (ast, formater) => {
 
 export {
   makeDiffTree,
-  getData,
-  isValidArgs,
+  readData,
   parse,
-  tagData,
   render,
 };

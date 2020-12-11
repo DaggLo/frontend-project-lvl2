@@ -1,15 +1,7 @@
 import fs from 'fs';
-import path from 'path';
 
 import parsers from './parsers.js';
-
-const makeTag = (arg) => {
-  const defaultTagName = 'Blank extension';
-  const currentExtension = path.extname(arg);
-  return currentExtension === ''
-    ? defaultTagName
-    : currentExtension.toLowerCase();
-};
+import { makeTag } from './tags.js';
 
 const isSupportedFileExtension = (arg) => {
   const extension = makeTag(arg);
@@ -38,4 +30,5 @@ const isValidFilePath = (filePath) => {
   return true;
 };
 
-export { isSupportedFileExtension, isValidFilePath, makeTag };
+export default (...theArgs) => (
+  theArgs.every(isValidFilePath) && theArgs.every(isSupportedFileExtension));
