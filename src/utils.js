@@ -3,14 +3,20 @@ import path from 'path';
 
 import parsers from './parsers.js';
 
-const makeTag = (arg) => path.extname(arg).toLowerCase().slice(1);
+const makeTag = (arg) => {
+  const defaultTagName = 'Blank extension';
+  const currentExtension = path.extname(arg);
+  return currentExtension === ''
+    ? defaultTagName
+    : currentExtension.toLowerCase();
+};
 
 const isSupportedFileExtension = (arg) => {
   const extension = makeTag(arg);
   const result = Object.prototype.hasOwnProperty.call(parsers, extension);
 
   if (!result) {
-    console.log(`The .${extension} files are not supported.`);
+    console.log(`${extension} files are not supported.`);
   }
 
   return result;
