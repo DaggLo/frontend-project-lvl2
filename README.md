@@ -43,6 +43,14 @@ Options:
 - `.yml`
 -_... to be completed._
 
+### Supported output formats.
+An output format can be specified via special value combined with the `-f` or `--format` option. This value is optional and if no value is provided with the option a default one (`stylish`) is used.
+
+List of supported output formats:
+- `stylish` (_default_)
+- `plain`
+-_... to be completed._
+
 ### Usage examples
 ```
 gendiff -V
