@@ -10,17 +10,20 @@ import program from 'commander';
 import gendiff from '../index.js';
 
 // const { version } = packageConfig;
+program
+  .storeOptionsAsProperties(false)
+  .passCommandToAction(false);
 
 program
   .version('0.1.0')
   // .version(version)
   .description('Compares two configuration files and shows a difference.')
-  .option('-f, --format [type]', 'output format')
+  .option('-f, --format [type]', 'output format', 'stylish')
   .arguments('<firstConfig> <secondConfig>')
-  .action((firstConfig, secondConfig) => {
-    // console.log(firstConfig, typeof firstConfig, process.cwd());
-    // console.log(secondConfig, typeof secondConfig);
-    const result = gendiff(firstConfig, secondConfig);
+  .action((firstConfig, secondConfig, options) => {
+    // console.log(firstConfig, secondConfig, options);
+    const formater = options.format;
+    const result = gendiff(firstConfig, secondConfig, formater);
     console.log(result);
   });
 

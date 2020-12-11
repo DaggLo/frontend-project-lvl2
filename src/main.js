@@ -1,29 +1,42 @@
 import fs from 'fs';
 import path from 'path';
 import { attach, typeTag, contents } from '@hexlet/tagged-types';
+import _ from 'lodash';
 
 import { isSupportedFileExtension, isValidFilePath, makeTag } from './utils.js';
+import formaters from './formaters.js';
 import parsers from './parsers.js';
+import Node from './classes/Node.js';
 
-const generateDiff = (data1, data2) => {
+const makeDiffTree = (data1, data2) => {
   const keys1 = Object.keys(data1);
   const keys2 = Object.keys(data2);
-  const union = keys1.reduce(
+  const ast = keys1.reduce(
     (acc, key) => {
       const { [key]: value1 } = data1;
-      if (!keys2.includes(key)) return [...acc, ['-', key, value1]];
+
+      if (!keys2.includes(key)) {
+        return [...acc, new Node('leaf', key, value1, 'deleted')];
+      }
 
       const { [key]: value2 } = data2;
-      return value1 === value2 ? [...acc, [' ', key, value1]]
-        : [...acc, ['-', key, value1], ['+', key, value2]];
+
+      if (!_.isPlainObject(value1) || !_.isPlainObject(value2)) {
+        return _.isEqual(value1, value2)
+          ? [...acc, new Node('leaf', key, value1, 'unchanged')]
+          : [...acc, new Node('leaf', key, value1, 'deleted'), new Node('leaf', key, value2, 'added')];
+      }
+
+      return [...acc, new Node('internal', key, null, 'unchanged', makeDiffTree(value1, value2))];
     },
     [],
   );
-  const completedUnion = keys2
-    .filter((key) => !keys1.includes(key))
-    .reduce((acc, key) => [...acc, ['+', key, data2[key]]], union);
 
-  return completedUnion;
+  const completedAst = keys2
+    .filter((key) => !keys1.includes(key))
+    .reduce((acc, key) => [...acc, new Node('leaf', key, data2[key], 'added')], ast);
+
+  return completedAst;
 };
 
 const getData = (dirname, filePath) => {
@@ -54,32 +67,16 @@ const tagData = (data, filePath) => {
   return attach(tag, data);
 };
 
-const toFormatedString = (arr) => {
-  const margin = '  ';
-  const padding = ' ';
-  const sorted = [...arr].sort(
-    (a, b) => {
-      const [, aKey] = a;
-      const [, bKey] = b;
-      return aKey.localeCompare(bKey, 'en', { sensitivity: 'base' });
-    },
-  );
-
-  const formated = sorted.map(
-    (e) => {
-      const [sign, key, value] = e;
-      return [margin, sign, padding, key, ': ', value].join('');
-    },
-  );
-
-  return ['{', ...formated, '}'].join('\n');
+const render = (ast, formater) => {
+  const format = formaters[formater];
+  return format(ast);
 };
 
 export {
-  generateDiff,
+  makeDiffTree,
   getData,
   isValidArgs,
   parse,
   tagData,
-  toFormatedString,
+  render,
 };
