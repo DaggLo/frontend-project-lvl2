@@ -22,8 +22,8 @@ program
   .arguments('<firstConfig> <secondConfig>')
   .action((firstConfig, secondConfig, options) => {
     // console.log(firstConfig, secondConfig, options);
-    const formater = options.format;
-    const result = gendiff(firstConfig, secondConfig, formater);
+    const formatterName = options.format;
+    const result = gendiff(firstConfig, secondConfig, formatterName);
     console.log(result);
   });
 

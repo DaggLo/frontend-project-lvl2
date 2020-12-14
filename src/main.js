@@ -3,7 +3,7 @@ import path from 'path';
 import _ from 'lodash';
 
 import { getTag, getData } from './tags.js';
-import formaters from './formaters.js';
+import formatter from './formatter.js';
 import parsers from './parsers.js';
 import Node from './classes/Node.js';
 
@@ -44,7 +44,7 @@ const readData = (dirname, filePath) => {
   return data;
 };
 
-const parse = (taggedData) => {
+const parseData = (taggedData) => {
   const tag = getTag(taggedData);
   const data = getData(taggedData);
   const parser = parsers[tag];
@@ -52,14 +52,14 @@ const parse = (taggedData) => {
   return parser(data);
 };
 
-const render = (ast, formater) => {
-  const format = formaters[formater];
-  return format(ast);
+const renderDiffTree = (diffTree, formatterName) => {
+  const format = formatter[formatterName];
+  return format(diffTree);
 };
 
 export {
   makeDiffTree,
   readData,
-  parse,
-  render,
+  parseData,
+  renderDiffTree,
 };

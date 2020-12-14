@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import Node from '../classes/Node.js';
 
-export default (ast) => {
+export default (diffTree) => {
   const padding = ' ';
   const sign = {
     added: '+',
@@ -56,5 +56,5 @@ export default (ast) => {
     return ['{', ...formated, `${endMargin}}`].join('\n');
   };
 
-  return iter(ast);
+  return iter(diffTree);
 };
