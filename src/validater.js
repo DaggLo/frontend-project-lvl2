@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-import parsers from './parsers.js';
+import parsers from './parsers/index.js';
 import { makeTag } from './tags.js';
 
 const isSupportedFileExtension = (arg) => {

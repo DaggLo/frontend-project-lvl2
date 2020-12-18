@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import { getTag, getData } from './tags.js';
 import formatters from './formatters/index.js';
-import parsers from './parsers.js';
+import parsers from './parsers/index.js';
 import Node from './classes/Node.js';
 
 const makeDiffTree = (data1, data2) => {

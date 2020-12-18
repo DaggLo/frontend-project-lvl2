@@ -1,5 +1,5 @@
-import parseYAML from './parsers/yaml.js';
-import parseJSON from './parsers/json.js';
+import parseYAML from './yaml.js';
+import parseJSON from './json.js';
 
 export default {
   '.json': parseJSON,
