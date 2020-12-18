@@ -33,6 +33,14 @@ describe('Standard cases.', () => {
     expect(gendiff(flatJson1, flatYaml2)).toEqual(flatDiff);
     expect(gendiff(nestedYaml1, nestedJson2)).toEqual(nestedDiff);
   });
+
+  test('Testing "plain" output format.', () => {
+    const flatDiffPlain = readFile('flat/diff_plain.txt').trimEnd();
+    const nestedDiffPlain = readFile('nested/diff_plain.txt').trimEnd();
+
+    expect(gendiff(flatJson1, flatYaml2, 'plain')).toEqual(flatDiffPlain);
+    expect(gendiff(nestedYaml1, nestedJson2, 'plain')).toEqual(nestedDiffPlain);
+  });
 });
 
 describe('Corner cases.', () => {
