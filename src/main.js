@@ -3,7 +3,7 @@ import path from 'path';
 import _ from 'lodash';
 
 import { getTag, getData } from './tags.js';
-import formatter from './formatter.js';
+import formatters from './formatters/index.js';
 import parsers from './parsers.js';
 import Node from './classes/Node.js';
 
@@ -53,8 +53,33 @@ const parseData = (taggedData) => {
 };
 
 const renderDiffTree = (diffTree, formatterName) => {
-  const format = formatter[formatterName];
-  return format(diffTree);
+  const formatter = formatters[formatterName];
+  const iter = (subTree, level = 0) => [...subTree]
+    .sort(
+      (a, b) => {
+        const aName = a.getName();
+        const bName = b.getName();
+        return aName.localeCompare(bName, 'en', { sensitivity: 'base' });
+      },
+    )
+    .map(
+      (node) => {
+        const key = node.getName();
+        const value = node.getValue();
+        const status = node.getStatus();
+
+        if (node.getType() === 'leaf') {
+          return formatter.processLeaf(level, status, key, value);
+        }
+
+        const children = node.getChildren();
+
+        return formatter.processInternal(level, status, key, iter(children, level + 1));
+      },
+    )
+    .join('\n');
+
+  return formatter.formatRoot(iter(diffTree));
 };
 
 export {
