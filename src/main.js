@@ -7,35 +7,39 @@ import formatters from './formatters/index.js';
 import parsers from './parsers/index.js';
 import Node from './classes/Node.js';
 
-const makeDiffTree = (data1, data2) => {
+const makeDiffTree = (data1, data2, pathFromRoot = []) => {
   const keys1 = Object.keys(data1);
   const keys2 = Object.keys(data2);
-  const ast = keys1.reduce(
+  const diffTree = keys1.reduce(
     (acc, key) => {
+      const newPath = [...pathFromRoot, key];
       const { [key]: value1 } = data1;
 
       if (!keys2.includes(key)) {
-        return [...acc, new Node('leaf', key, value1, 'deleted')];
+        return [...acc, new Node('leaf', 'deleted', newPath, value1, null)];
       }
 
       const { [key]: value2 } = data2;
 
       if (!_.isPlainObject(value1) || !_.isPlainObject(value2)) {
         return _.isEqual(value1, value2)
-          ? [...acc, new Node('leaf', key, value1, 'unchanged')]
-          : [...acc, new Node('leaf', key, value1, 'deleted'), new Node('leaf', key, value2, 'added')];
+          ? [...acc, new Node('leaf', 'unchanged', newPath, value1, value2)]
+          : [...acc, new Node('leaf', 'changed', newPath, value1, value2)];
       }
 
-      return [...acc, new Node('internal', key, null, 'unchanged', makeDiffTree(value1, value2))];
+      return [
+        ...acc,
+        new Node('internal', 'unchanged', newPath, null, null, makeDiffTree(value1, value2, newPath)),
+      ];
     },
     [],
   );
 
-  const completedAst = keys2
+  const completedDiffTree = keys2
     .filter((key) => !keys1.includes(key))
-    .reduce((acc, key) => [...acc, new Node('leaf', key, data2[key], 'added')], ast);
+    .reduce((acc, key) => [...acc, new Node('leaf', 'added', [...pathFromRoot, key], null, data2[key])], diffTree);
 
-  return completedAst;
+  return completedDiffTree;
 };
 
 const readData = (dirname, filePath) => {
@@ -57,29 +61,29 @@ const renderDiffTree = (diffTree, formatterName) => {
   const iter = (subTree, level = 0) => [...subTree]
     .sort(
       (a, b) => {
-        const aName = a.getName();
-        const bName = b.getName();
+        const aName = a.getKey();
+        const bName = b.getKey();
         return aName.localeCompare(bName, 'en', { sensitivity: 'base' });
       },
     )
     .map(
       (node) => {
-        const key = node.getName();
-        const value = node.getValue();
+        const currentPath = node.getPath();
+        const oldValue = node.getOldValue();
+        const newValue = node.getNewValue();
         const status = node.getStatus();
 
         if (node.getType() === 'leaf') {
-          return formatter.processLeaf(level, status, key, value);
+          return formatter.processLeaf(level, status, currentPath, oldValue, newValue);
         }
 
         const children = node.getChildren();
 
-        return formatter.processInternal(level, status, key, iter(children, level + 1));
+        return formatter.processInternal(level, status, currentPath, iter(children, level + 1));
       },
-    )
-    .join('\n');
+    );
 
-  return formatter.formatRoot(iter(diffTree));
+  return formatter.processRoot(iter(diffTree));
 };
 
 export {

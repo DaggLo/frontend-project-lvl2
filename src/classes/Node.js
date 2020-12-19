@@ -1,8 +1,9 @@
 export default class Node {
-  constructor(type, name, value, status, children = []) {
+  constructor(type, status, pathFromRoot, oldValue, newValue, children = []) {
     this.type = type;
-    this.name = name;
-    this.value = value;
+    this.path = pathFromRoot;
+    this.oldValue = oldValue;
+    this.newValue = newValue;
     this.status = status;
     this.children = children;
   }
@@ -11,12 +12,20 @@ export default class Node {
     return this.type;
   }
 
-  getName() {
-    return this.name;
+  getPath() {
+    return this.path;
   }
 
-  getValue() {
-    return this.value;
+  getKey() {
+    return [...this.path].pop();
+  }
+
+  getOldValue() {
+    return this.oldValue;
+  }
+
+  getNewValue() {
+    return this.newValue;
   }
 
   getStatus() {
