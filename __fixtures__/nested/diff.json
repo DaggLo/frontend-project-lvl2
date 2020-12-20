@@ -1,0 +1,52 @@
+[
+  {
+    "type": "internal",
+    "path": ["common"],
+    "oldValue": null,
+    "newValue": null,
+    "status": "unchanged",
+    "children": [
+      { "type": "leaf", "path": ["common", "follow"], "oldValue": null, "newValue": false, "status": "added", "children": [] },
+      { "type": "leaf", "path": ["common", "setting1"], "oldValue": "Value 1", "newValue": "Value 1", "status": "unchanged", "children": [] },
+      { "type": "leaf", "path": ["common", "setting2"], "oldValue": 200, "newValue": null, "status": "deleted", "children": [] },
+      { "type": "leaf", "path": ["common", "setting3"], "oldValue": true, "newValue": null, "status": "changed", "children": [] },
+      { "type": "leaf", "path": ["common", "setting4"], "oldValue": null, "newValue": "blah blah", "status": "added", "children": [] },
+      { "type": "leaf", "path": ["common", "setting5"], "oldValue": null, "newValue": { "key5": "value5" }, "status": "added", "children": [] },
+      {
+        "type": "internal",
+        "path": ["common", "setting6"],
+        "oldValue": null,
+        "newValue": null,
+        "status": "unchanged",
+        "children": [
+          {
+            "type": "internal",
+            "path": ["common", "setting6", "doge"],
+            "oldValue": null,
+            "newValue": null,
+            "status": "unchanged",
+            "children": [
+              { "type": "leaf", "path": ["common", "setting6", "doge", "wow"], "oldValue": "", "newValue": "so much", "status": "changed", "children": [] }
+            ]
+          },
+          { "type": "leaf", "path": ["common", "setting6", "key"], "oldValue": "value", "newValue": "value", "status": "unchanged", "children": [] },
+          { "type": "leaf", "path": ["common", "setting6", "ops"], "oldValue": null, "newValue": "vops", "status": "added", "children": [] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "internal",
+    "path": ["group1"],
+    "oldValue": null,
+    "newValue": null,
+    "status": "unchanged",
+    "children": [
+      { "type": "leaf", "path": ["group1", "baz"], "oldValue": "bas", "newValue": "bars", "status": "changed", "children": [] },
+      { "type": "leaf", "path": ["group1", "foo"], "oldValue": "bar", "newValue": "bar", "status": "unchanged", "children": [] },
+      { "type": "leaf", "path": ["group1", "nest"], "oldValue": { "key": "value" }, "newValue": "str", "status": "changed", "children": [] }
+    ]
+  },
+  { "type": "leaf", "path": ["group2"], "oldValue": { "abc": 12345, "deep": { "id": 45 } }, "newValue": null, "status": "deleted", "children": [] },
+  { "type": "leaf", "path": ["group3"], "oldValue": null, "newValue": { "fee": 100500, "deep": { "id": { "number": 45 } } }, "status": "added", "children": [] }
+]
