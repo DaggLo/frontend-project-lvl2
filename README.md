@@ -22,6 +22,35 @@ While this is a practice package it is not meant to be published into NPM reposi
 3. Run `sudo npm link` to install the app globally.
 
 ## Usage
+This package may be used as a command-line utility or as a library.
+
+## Using as a library
+In order to do this you should firstly install the package into a project you want to use with. Run the following into your project root:
+```
+npm link gendiff
+```
+
+The utility may be imported into your code the trivial way:
+```
+import gendiff from 'gendiff';
+```
+
+and then be used as a normal function:
+```
+const diff = gendiff(path, anotherPath, formaterName);
+```
+
+First two arguments are paths to files you want to compare.
+
+The third argument is optional and should be a string which represents the name of output formatter. The output formatter determines the way the function's output will be looking. List of supported values:
+
+- `stylish` (_default_)
+- `plain`
+- `json` (_useful for a further transfer_)
+
+The function always returns a string.
+
+## Using as a cli-utility
 As a command-line utility `gendiff` may take parameters and/or various optional flags (options). Generally the utility syntax looks like this:
 ```
 gendiff [options] <firstConfig> <secondConfig>
@@ -39,9 +68,7 @@ Options:
 
 ### Supported file types.
 - `.json`
-- `.yaml`
-- `.yml`
--_... to be completed._
+- `.yaml` and `.yml`
 
 ### Supported output formats.
 An output format can be specified via special value combined with the `-f` or `--format` option. This value is optional and if no value is provided with the option a default one (`stylish`) is used.
@@ -49,7 +76,7 @@ An output format can be specified via special value combined with the `-f` or `-
 List of supported output formats:
 - `stylish` (_default_)
 - `plain`
--_... to be completed._
+- `json`
 
 ### Usage examples
 ```
@@ -57,15 +84,16 @@ gendiff -V
 gendiff --help
 gendiff temp/file1.json file2.json
 gendiff temp/file1.yaml file2.json
-gendiff -f ../src/1.json /home/user/2.yml
+gendiff -f plain ../src/1.json /home/user/2.yml
+gendiff ../src/1.json /home/user/2.yml -f json
 ```
 
-<a href="https://asciinema.org/a/r7Xyi4JDu6qp5o3rHuEELuaVk" target="_blank"><img src="https://asciinema.org/a/r7Xyi4JDu6qp5o3rHuEELuaVk.svg" alt="Ascinema of the usage process" width="200px"/></a>
+<a href="https://asciinema.org/a/DN6I3weZBVjbgVdHYY8MmaKOu" target="_blank"><img src="https://asciinema.org/a/DN6I3weZBVjbgVdHYY8MmaKOu.svg" alt="Ascinema of the usage process" width="200px"/></a>
 
 ## License
 ISC License
 
-Copyright (c) 2020, Evgeny A. Degtev
+Copyright (c) 2021, Evgeny A. Degtev
 
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
