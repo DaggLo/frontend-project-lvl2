@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { getTag, getData } from './tags.js';
 import formatters from './formatters/index.js';
 import parsers from './parsers/index.js';
-import Node from './classes/Node.js';
+import makeNode from './node.js';
 
 const makeDiffTree = (data1, data2, pathFromRoot = []) => {
   const keys1 = Object.keys(data1);
@@ -16,20 +16,20 @@ const makeDiffTree = (data1, data2, pathFromRoot = []) => {
       const { [key]: value1 } = data1;
 
       if (!keys2.includes(key)) {
-        return [...acc, new Node('leaf', 'deleted', newPath, value1, null)];
+        return [...acc, makeNode('leaf', 'deleted', newPath, value1, null)];
       }
 
       const { [key]: value2 } = data2;
 
       if (!_.isPlainObject(value1) || !_.isPlainObject(value2)) {
         return _.isEqual(value1, value2)
-          ? [...acc, new Node('leaf', 'unchanged', newPath, value1, value2)]
-          : [...acc, new Node('leaf', 'changed', newPath, value1, value2)];
+          ? [...acc, makeNode('leaf', 'unchanged', newPath, value1, value2)]
+          : [...acc, makeNode('leaf', 'changed', newPath, value1, value2)];
       }
 
       return [
         ...acc,
-        new Node('internal', 'unchanged', newPath, null, null, makeDiffTree(value1, value2, newPath)),
+        makeNode('internal', 'unchanged', newPath, null, null, makeDiffTree(value1, value2, newPath)),
       ];
     },
     [],
@@ -37,7 +37,7 @@ const makeDiffTree = (data1, data2, pathFromRoot = []) => {
 
   const completedDiffTree = keys2
     .filter((key) => !keys1.includes(key))
-    .reduce((acc, key) => [...acc, new Node('leaf', 'added', [...pathFromRoot, key], null, data2[key])], diffTree);
+    .reduce((acc, key) => [...acc, makeNode('leaf', 'added', [...pathFromRoot, key], null, data2[key])], diffTree);
 
   return completedDiffTree;
 };
