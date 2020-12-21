@@ -8,103 +8,76 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 const readFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf8');
 
-const flatJson1 = getFixturePath('flat/1.json');
-const flatJson2 = getFixturePath('flat/2.json');
-const flatYaml1 = getFixturePath('flat/1.yml');
-const flatYaml2 = getFixturePath('flat/2.yml');
+const json1 = getFixturePath('1.json');
+const json2 = getFixturePath('2.json');
+const yaml1 = getFixturePath('1.yaml');
+const yaml2 = getFixturePath('2.yaml');
 
 describe('Standard cases.', () => {
-  const nestedJson1 = getFixturePath('nested/1.json');
-  const nestedJson2 = getFixturePath('nested/2.json');
-  const nestedYaml1 = getFixturePath('nested/1.yaml');
-  const nestedYaml2 = getFixturePath('nested/2.yaml');
-
-  const flatDiff = readFile('flat/diff.txt').trimEnd();
-  const nestedDiff = readFile('nested/diff.txt').trimEnd();
+  const diff = readFile('diff.txt').trimEnd();
 
   test('Comparing files of same type.', () => {
-    expect(gendiff(flatJson1, flatJson2)).toEqual(flatDiff);
-    expect(gendiff(flatYaml1, flatYaml2)).toEqual(flatDiff);
-    expect(gendiff(nestedJson1, nestedJson2)).toEqual(nestedDiff);
-    expect(gendiff(nestedYaml1, nestedYaml2)).toEqual(nestedDiff);
+    expect(gendiff(json1, json2)).toEqual(diff);
+    expect(gendiff(yaml1, yaml2)).toEqual(diff);
   });
 
   test('Comparing files of different types.', () => {
-    expect(gendiff(flatJson1, flatYaml2)).toEqual(flatDiff);
-    expect(gendiff(nestedYaml1, nestedJson2)).toEqual(nestedDiff);
+    expect(gendiff(yaml1, json2)).toEqual(diff);
   });
 
   test('Testing "plain" output format.', () => {
-    const flatDiffPlain = readFile('flat/diff_plain.txt').trimEnd();
-    const nestedDiffPlain = readFile('nested/diff_plain.txt').trimEnd();
+    const diffPlain = readFile('diff_plain.txt').trimEnd();
 
-    expect(gendiff(flatJson1, flatYaml2, 'plain')).toEqual(flatDiffPlain);
-    expect(gendiff(nestedYaml1, nestedJson2, 'plain')).toEqual(nestedDiffPlain);
+    expect(gendiff(yaml1, json2, 'plain')).toEqual(diffPlain);
   });
 
   test('Testing "json" output format.', () => {
-    const flatDiffJson = readFile('flat/diff.json').trimEnd();
-    const nestedDiffJson = readFile('nested/diff.json').trimEnd();
+    const diffJson = readFile('diff.json').trimEnd();
+    const expected = JSON.stringify(JSON.parse(diffJson));
 
-    const expected1 = JSON.stringify(JSON.parse(flatDiffJson));
-    const expected2 = JSON.stringify(JSON.parse(nestedDiffJson));
-
-    expect(gendiff(flatJson1, flatYaml2, 'json')).toEqual(expected1);
-    expect(gendiff(nestedYaml1, nestedJson2, 'json')).toEqual(expected2);
+    expect(gendiff(yaml1, json2, 'json')).toEqual(expected);
   });
 });
 
 describe('Corner cases.', () => {
   test('Comparing files with same contents.', () => {
-    const expected = [
-      '{',
-      '    follow: false',
-      '    host: hexlet.io',
-      '    proxy: 123.234.53.22',
-      '    timeout: 50',
-      '}',
-    ].join('\n');
+    const diffSame = readFile('diff_same.txt').trimEnd();
 
-    expect(gendiff(flatJson1, flatYaml1)).toEqual(expected);
+    expect(gendiff(json1, yaml1)).toEqual(diffSame);
   });
 
   test('Comparing with empty file.', () => {
     const emptyFile1 = getFixturePath('empty.json');
     const emptyFile2 = getFixturePath('empty.yml');
 
-    const expected = [
-      '{',
-      '  + host: hexlet.io',
-      '  + timeout: 20',
-      '  + verbose: true',
-      '}',
-    ].join('\n');
+    const diffEmpty = readFile('diff_empty.txt').trimEnd();
 
-    expect(gendiff(emptyFile1, flatJson2)).toEqual(expected);
-    expect(gendiff(emptyFile2, flatYaml2)).toEqual(expected);
+    expect(gendiff(emptyFile1, json1)).toEqual(diffEmpty);
+    expect(gendiff(emptyFile2, yaml1)).toEqual(diffEmpty);
   });
 });
 
 describe('Processing not valid args.', () => {
   test('Not valid file paths.', () => {
-    expect(gendiff('', flatYaml2)).toBeNull();
-    expect(gendiff(flatJson2, 3)).toBeNull();
-    expect(gendiff(null, flatYaml1)).toBeNull();
-    expect(gendiff(flatYaml1, undefined)).toBeNull();
+    expect(gendiff('', yaml2)).toBeNull();
+    expect(gendiff(json2, 3)).toBeNull();
+    expect(gendiff(null, yaml1)).toBeNull();
+    expect(gendiff(json1, undefined)).toBeNull();
   });
 
   test('Non-existent paths.', () => {
-    const wrongPath1 = getFixturePath('flat3.json');
-    const wrongPath2 = getFixturePath('flat3.yml');
+    const wrongPath1 = getFixturePath('35.json');
+    const wrongPath2 = getFixturePath('35.json');
 
-    expect(gendiff(flatJson1, wrongPath1)).toBeNull();
+    expect(gendiff(json1, wrongPath1)).toBeNull();
+    expect(gendiff(wrongPath2, yaml2)).toBeNull();
     expect(gendiff(wrongPath1, wrongPath2)).toBeNull();
   });
 
   test('Directory paths instead of file paths.', () => {
-    expect(gendiff('.', flatJson1)).toBeNull();
-    expect(gendiff(flatJson2, '..')).toBeNull();
-    expect(gendiff('./bin', flatYaml1)).toBeNull();
+    expect(gendiff('.', json1)).toBeNull();
+    expect(gendiff(json2, '..')).toBeNull();
+    expect(gendiff('./bin', yaml1)).toBeNull();
   });
 
   test('Unsupported files.', () => {
@@ -112,8 +85,8 @@ describe('Processing not valid args.', () => {
     const unsupportedFile2 = getFixturePath('unsupp.');
     const unsupportedFile3 = getFixturePath('unsupp');
 
-    expect(gendiff(flatJson1, unsupportedFile1)).toBeNull();
-    expect(gendiff(flatJson1, unsupportedFile2)).toBeNull();
-    expect(gendiff(flatJson1, unsupportedFile3)).toBeNull();
+    expect(gendiff(json1, unsupportedFile1)).toBeNull();
+    expect(gendiff(json2, unsupportedFile2)).toBeNull();
+    expect(gendiff(unsupportedFile3, yaml1)).toBeNull();
   });
 });

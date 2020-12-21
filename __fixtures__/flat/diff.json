@@ -1,7 +1,0 @@
-[
-  { "type": "leaf", "path": ["follow"], "oldValue": false, "newValue": null, "status": "deleted", "children": [] },
-  { "type": "leaf", "path": ["host"], "oldValue": "hexlet.io", "newValue": "hexlet.io", "status": "unchanged", "children": [] },
-  { "type": "leaf", "path": ["proxy"], "oldValue": "123.234.53.22", "newValue": null, "status": "deleted", "children": [] },
-  { "type": "leaf", "path": ["timeout"], "oldValue": 50, "newValue": 20, "status": "changed", "children": [] },
-  { "type": "leaf", "path": ["verbose"], "oldValue": null, "newValue": true, "status": "added", "children": [] }
-]
