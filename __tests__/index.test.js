@@ -6,7 +6,7 @@ import gendiff from '../index.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
-const readFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf8');
+const readFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf8').trimEnd();
 
 const json1 = getFixturePath('1.json');
 const json2 = getFixturePath('2.json');
@@ -14,7 +14,7 @@ const yaml1 = getFixturePath('1.yaml');
 const yaml2 = getFixturePath('2.yaml');
 
 describe('Standard cases.', () => {
-  const expectedStylish = readFile('expected.stylish').trimEnd();
+  const expectedStylish = readFile('expected.stylish');
 
   test('Comparing files of same type.', () => {
     expect(gendiff(json1, json2)).toEqual(expectedStylish);
@@ -26,13 +26,13 @@ describe('Standard cases.', () => {
   });
 
   test('Testing "plain" output format.', () => {
-    const expectedPlain = readFile('expected.plain').trimEnd();
+    const expectedPlain = readFile('expected.plain');
 
     expect(gendiff(yaml1, json2, 'plain')).toEqual(expectedPlain);
   });
 
   test('Testing "json" output format.', () => {
-    const rawData = readFile('expected.json').trimEnd();
+    const rawData = readFile('expected.json');
     const expectedJson = JSON.stringify(JSON.parse(rawData));
 
     expect(gendiff(yaml1, json2, 'json')).toEqual(expectedJson);
@@ -41,7 +41,7 @@ describe('Standard cases.', () => {
 
 describe('Corner cases.', () => {
   test('Comparing files with same contents.', () => {
-    const expectedSame = readFile('expected.same').trimEnd();
+    const expectedSame = readFile('expected.same');
 
     expect(gendiff(json1, yaml1)).toEqual(expectedSame);
   });
@@ -50,7 +50,7 @@ describe('Corner cases.', () => {
     const emptyFile1 = getFixturePath('empty.json');
     const emptyFile2 = getFixturePath('empty.yml');
 
-    const expectedEmpty = readFile('expected.empty').trimEnd();
+    const expectedEmpty = readFile('expected.empty');
 
     expect(gendiff(emptyFile1, json1)).toEqual(expectedEmpty);
     expect(gendiff(emptyFile2, yaml1)).toEqual(expectedEmpty);
