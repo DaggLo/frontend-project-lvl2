@@ -15,38 +15,37 @@ const yaml2 = getFixturePath('2.yaml');
 
 describe('Standard cases.', () => {
   const expectedStylish = readFile('expected.stylish');
+  const expectedPlain = readFile('expected.plain');
+  const rawJson = readFile('expected.json');
+  const expectedJson = JSON.stringify(JSON.parse(rawJson));
 
-  test('Comparing files of same type.', () => {
-    expect(gendiff(json1, json2)).toEqual(expectedStylish);
-    expect(gendiff(yaml1, yaml2)).toEqual(expectedStylish);
-  });
+  const expectedOutputs = [
+    ['stylish', expectedStylish],
+    ['plain', expectedPlain],
+    ['json', expectedJson],
+  ];
+  const sameTypeFiles = [['json', json1, json2], ['yaml', yaml1, yaml2]];
+  const differentTypeFiles = [['"yaml" and "json"', yaml1, json2]];
 
-  test('Comparing files of different types.', () => {
-    expect(gendiff(yaml1, json2)).toEqual(expectedStylish);
-  });
+  describe.each(expectedOutputs)('Testing %p output format.', (formatterName, expected) => {
+    test.each(sameTypeFiles)('Comparing files of %p type.', (type, file1, file2) => {
+      expect(gendiff(file1, file2, formatterName)).toEqual(expected);
+    });
 
-  test('Testing "plain" output format.', () => {
-    const expectedPlain = readFile('expected.plain');
-
-    expect(gendiff(yaml1, json2, 'plain')).toEqual(expectedPlain);
-  });
-
-  test('Testing "json" output format.', () => {
-    const rawData = readFile('expected.json');
-    const expectedJson = JSON.stringify(JSON.parse(rawData));
-
-    expect(gendiff(yaml1, json2, 'json')).toEqual(expectedJson);
+    test.each(differentTypeFiles)('Comparing %s files.', (type, file1, file2) => {
+      expect(gendiff(file1, file2, formatterName)).toEqual(expected);
+    });
   });
 });
 
 describe('Corner cases.', () => {
-  test('Comparing files with same contents.', () => {
+  test('Comparing files with the same content.', () => {
     const expectedSame = readFile('expected.same');
 
     expect(gendiff(json1, yaml1)).toEqual(expectedSame);
   });
 
-  test('Comparing with empty file.', () => {
+  test('Comparing with an empty file.', () => {
     const emptyFile1 = getFixturePath('empty.json');
     const emptyFile2 = getFixturePath('empty.yml');
 
@@ -58,35 +57,20 @@ describe('Corner cases.', () => {
 });
 
 describe('Processing not valid args.', () => {
-  test('Not valid file paths.', () => {
-    expect(gendiff('', yaml2)).toBeNull();
-    expect(gendiff(json2, 3)).toBeNull();
-    expect(gendiff(null, yaml1)).toBeNull();
-    expect(gendiff(json1, undefined)).toBeNull();
-  });
+  const notValidArgs = [
+    ['An empty string.', ''],
+    ['A number.', 3],
+    ['Null.', null],
+    ['Undefined.', undefined],
+    ['A non-existent path.', '35.json'],
+    ['A directory path.', '/home'],
+    ['A file without extension.', getFixturePath('unsupp')],
+    ['A file ending with "."', getFixturePath('unsupp.')],
+    ['A file with unsupported extension.', getFixturePath('unsupp.abc')],
+  ];
 
-  test('Non-existent paths.', () => {
-    const wrongPath1 = getFixturePath('35.json');
-    const wrongPath2 = getFixturePath('36.yaml');
-
-    expect(gendiff(json1, wrongPath1)).toBeNull();
-    expect(gendiff(wrongPath2, yaml2)).toBeNull();
-    expect(gendiff(wrongPath1, wrongPath2)).toBeNull();
-  });
-
-  test('Directory paths instead of file paths.', () => {
-    expect(gendiff('.', json1)).toBeNull();
-    expect(gendiff(json2, '..')).toBeNull();
-    expect(gendiff('./bin', yaml1)).toBeNull();
-  });
-
-  test('Unsupported files.', () => {
-    const unsupportedFile1 = getFixturePath('unsupp.abc');
-    const unsupportedFile2 = getFixturePath('unsupp.');
-    const unsupportedFile3 = getFixturePath('unsupp');
-
-    expect(gendiff(json1, unsupportedFile1)).toBeNull();
-    expect(gendiff(json2, unsupportedFile2)).toBeNull();
-    expect(gendiff(unsupportedFile3, yaml1)).toBeNull();
+  test.each(notValidArgs)('%s', (description, value) => {
+    expect(gendiff(value, yaml2)).toBeNull();
+    expect(gendiff(json2, value)).toBeNull();
   });
 });
