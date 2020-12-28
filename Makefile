@@ -1,8 +1,6 @@
 install:
-	npm install
-
-start:
-	bin/gendiff.js
+	npm ci
+	npm link
 
 test:
 	npm test -- --watch
