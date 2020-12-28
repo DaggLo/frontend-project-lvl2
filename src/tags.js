@@ -1,5 +1,4 @@
 import path from 'path';
-import { attach, contents, typeTag } from '@hexlet/tagged-types';
 
 const makeTag = (arg) => {
   const defaultTagName = 'Blank extension';
@@ -11,12 +10,12 @@ const makeTag = (arg) => {
 
 const tagData = (data, filePath) => {
   const tag = makeTag(filePath);
-  return attach(tag, data);
+  return { tag, data };
 };
 
-const getTag = (taggedData) => typeTag(taggedData);
+const getTag = (taggedData) => taggedData.tag;
 
-const getData = (taggedData) => contents(taggedData);
+const getData = (taggedData) => taggedData.data;
 
 export {
   makeTag,
