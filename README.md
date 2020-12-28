@@ -18,14 +18,16 @@ Developed and tested on NODE version 15.3.0 and NPM version 7.0.14.
 ## Installation
 While this is a practice package it is not meant to be published into NPM repository. Due to that follow these steps to install:
 1. Download this repo.
-2. Run inside downloaded directory: `npm install` (or `make install` if you have `make`).
-3. Run `sudo npm link` to install the app globally.
+2. Run inside the downloaded directory: `npm ci`
+3. Run `npm link` to install the app globally.
+
+If you have `make` command on you system you may just run `make install` inside the downloaded directory instead of steps 2 and 3 to accomplish the installation.
 
 ## Usage
 This package may be used as a command-line utility or as a library.
 
 ## Using as a library
-In order to do this you should firstly install the package into a project you want to use with. Run the following into your project root:
+In order to do this you should firstly install the package into the project you want to use with. Run the following into your project root:
 ```
 npm link gendiff
 ```
