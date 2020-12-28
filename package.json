@@ -1,5 +1,5 @@
 {
-  "name": "gendiff",
+  "name": "@DaggLo/gendiff",
   "version": "0.1.0",
   "description": "Compare two text files and get their diff.",
   "bin": {
