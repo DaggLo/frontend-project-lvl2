@@ -4,13 +4,7 @@ import path from 'path';
 import tagData from './src/tags.js';
 import { makeDiffTree, parse, format } from './src/main.js';
 
-const makeTag = (filePath) => {
-  const defaultTagName = 'Blank extension';
-  const currentExtension = path.extname(filePath);
-  return currentExtension === ''
-    ? defaultTagName
-    : currentExtension.toLowerCase();
-};
+const makeTag = (filePath) => path.extname(filePath).toLowerCase().slice(1);
 
 const readData = (filePath) => fs.readFileSync(filePath, 'utf8');
 
