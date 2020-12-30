@@ -1,5 +1,3 @@
-import fs from 'fs';
-import path from 'path';
 import _ from 'lodash';
 
 import { getTag, getData } from './tags.js';
@@ -42,12 +40,6 @@ const makeDiffTree = (data1, data2, pathFromRoot = []) => {
   return completedDiffTree;
 };
 
-const readData = (dirname, filePath) => {
-  const actualPath = path.resolve(dirname, filePath);
-  const data = fs.readFileSync(actualPath, 'utf8');
-  return data;
-};
-
 const parseData = (taggedData) => {
   const tag = getTag(taggedData);
   const data = getData(taggedData);
@@ -88,7 +80,6 @@ const renderDiffTree = (diffTree, formatterName) => {
 
 export {
   makeDiffTree,
-  readData,
   parseData,
   renderDiffTree,
 };
