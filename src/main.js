@@ -40,7 +40,7 @@ const makeDiffTree = (data1, data2, pathFromRoot = []) => {
   return completedDiffTree;
 };
 
-const parseData = (taggedData) => {
+const parse = (taggedData) => {
   const tag = getTag(taggedData);
   const data = getData(taggedData);
   const parser = parsers[tag];
@@ -48,7 +48,7 @@ const parseData = (taggedData) => {
   return parser(data);
 };
 
-const renderDiffTree = (diffTree, formatterName) => {
+const format = (diffTree, formatterName) => {
   const formatter = formatters[formatterName];
   const iter = (subTree, level = 0) => [...subTree]
     .sort(
@@ -80,6 +80,6 @@ const renderDiffTree = (diffTree, formatterName) => {
 
 export {
   makeDiffTree,
-  parseData,
-  renderDiffTree,
+  parse,
+  format,
 };

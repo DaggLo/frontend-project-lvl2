@@ -28,8 +28,8 @@ program
   .option('-f, --format [type]', 'output format', 'stylish')
   .arguments('<firstConfig> <secondConfig>')
   .action((firstConfig, secondConfig, options) => {
-    const formatterName = options.format;
-    const result = gendiff(firstConfig, secondConfig, formatterName);
+    const formatName = options.format;
+    const result = gendiff(firstConfig, secondConfig, formatName);
     console.log(result);
   });
 
