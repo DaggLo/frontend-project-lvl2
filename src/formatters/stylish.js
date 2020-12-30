@@ -23,7 +23,7 @@ const processLeaf = (level, status, path, oldValue, newValue) => {
   const value = status === 'added' ? newValue : oldValue;
 
   if (!_.isPlainObject(value)) {
-    return [...prefix, ` ${value}`.trimEnd()].join('');
+    return [...prefix, ' ', `${value}`].join('');
   }
 
   const nextLevel = level + 1;
