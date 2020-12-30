@@ -55,22 +55,3 @@ describe('Corner cases.', () => {
     expect(gendiff(emptyFile2, yaml1)).toEqual(expectedEmpty);
   });
 });
-
-describe('Processing not valid args.', () => {
-  const notValidArgs = [
-    ['An empty string.', ''],
-    ['A number.', 3],
-    ['Null.', null],
-    ['Undefined.', undefined],
-    ['A non-existent path.', '35.json'],
-    ['A directory path.', '/home'],
-    ['A file without extension.', getFixturePath('unsupp')],
-    ['A file ending with "."', getFixturePath('unsupp.')],
-    ['A file with unsupported extension.', getFixturePath('unsupp.abc')],
-  ];
-
-  test.each(notValidArgs)('%s', (description, value) => {
-    expect(gendiff(value, yaml2)).toBeNull();
-    expect(gendiff(json2, value)).toBeNull();
-  });
-});
