@@ -9,6 +9,7 @@ const signs = {
 
 const makeMargin = (level) => `  ${'    '.repeat(level)}`;
 const makePrefix = (level, status, key) => [makeMargin(level), signs[status], padding, key, ':'].join('');
+const getKeyFromPath = (path) => path.slice(-1).toString();
 
 const processLeaf = (level, status, path, oldValue, newValue) => {
   if (status === 'changed') {
@@ -18,7 +19,7 @@ const processLeaf = (level, status, path, oldValue, newValue) => {
     ].join('\n');
   }
 
-  const key = [...path].pop();
+  const key = getKeyFromPath(path);
   const prefix = makePrefix(level, status, key);
   const value = status === 'added' ? newValue : oldValue;
 
@@ -37,7 +38,7 @@ const processLeaf = (level, status, path, oldValue, newValue) => {
 };
 
 const processInternal = (level, status, path, subTree) => {
-  const key = [...path].pop();
+  const key = getKeyFromPath(path);
   const prefix = makePrefix(level, status, key);
   const nextLevel = level + 1;
   const endMargin = makeMargin(nextLevel).slice(0, -2);

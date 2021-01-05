@@ -1,30 +1,16 @@
-function getType() {
-  return this.type;
-}
+const getType = (node) => node.type;
 
-function getPath() {
-  return this.path;
-}
+const getPath = (node) => node.path;
 
-function getKey() {
-  return [...this.getPath()].pop();
-}
+const getKey = (node) => getPath(node).slice(-1).toString();
 
-function getOldValue() {
-  return this.oldValue;
-}
+const getOldValue = (node) => node.oldValue;
 
-function getNewValue() {
-  return this.newValue;
-}
+const getNewValue = (node) => node.newValue;
 
-function getStatus() {
-  return this.status;
-}
+const getStatus = (node) => node.status;
 
-function getChildren() {
-  return this.children;
-}
+const getChildren = (node) => node.children;
 
 export default (type, status, path, oldValue, newValue, children = []) => (
   {
@@ -34,12 +20,15 @@ export default (type, status, path, oldValue, newValue, children = []) => (
     newValue,
     status,
     children,
-    getType,
-    getPath,
-    getKey,
-    getOldValue,
-    getNewValue,
-    getStatus,
-    getChildren,
   }
 );
+
+export {
+  getType,
+  getPath,
+  getKey,
+  getOldValue,
+  getNewValue,
+  getStatus,
+  getChildren,
+};
