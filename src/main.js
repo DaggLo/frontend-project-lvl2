@@ -1,8 +1,6 @@
 import _ from 'lodash';
 
-import { getTag, getData } from './tags.js';
 import formatters from './formatters/index.js';
-import parsers from './parsers/index.js';
 import makeNode, {
   getType,
   getPath,
@@ -45,14 +43,6 @@ const makeDiffTree = (data1, data2, pathFromRoot = []) => {
   );
 };
 
-const parse = (taggedData) => {
-  const tag = getTag(taggedData);
-  const data = getData(taggedData);
-  const parser = parsers[tag];
-
-  return parser(data);
-};
-
 const format = (diffTree, formatterName) => {
   const formatter = formatters[formatterName];
   const iter = (subTree, level = 0) => {
@@ -80,6 +70,5 @@ const format = (diffTree, formatterName) => {
 
 export {
   makeDiffTree,
-  parse,
   format,
 };
