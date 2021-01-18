@@ -1,8 +1,9 @@
 import fs from 'fs';
 import path from 'path';
 
-import { makeDiffTree, format } from './src/main.js';
+import makeDiffTree from './src/main.js';
 import parse from './src/parsers/index.js';
+import format from './src/formatters/index.js';
 
 const getFormat = (filePath) => path.extname(filePath).toLowerCase().slice(1);
 const readData = (filePath) => fs.readFileSync(filePath, 'utf8');

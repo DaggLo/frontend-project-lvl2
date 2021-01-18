@@ -1,15 +1,6 @@
 import _ from 'lodash';
 
-import formatters from './formatters/index.js';
-import makeNode, {
-  getType,
-  getPath,
-  getKey,
-  getOldValue,
-  getNewValue,
-  getStatus,
-  getChildren,
-} from './node.js';
+import makeNode from './node.js';
 
 const makeDiffTree = (data1, data2, pathFromRoot = []) => {
   const keys1 = _.keys(data1);
@@ -43,32 +34,4 @@ const makeDiffTree = (data1, data2, pathFromRoot = []) => {
   );
 };
 
-const format = (diffTree, formatterName) => {
-  const formatter = formatters[formatterName];
-  const iter = (subTree, level = 0) => {
-    const sorted = _.sortBy(subTree, [(node) => getKey(node)]);
-    return sorted.map(
-      (node) => {
-        const currentPath = getPath(node);
-        const oldValue = getOldValue(node);
-        const newValue = getNewValue(node);
-        const status = getStatus(node);
-
-        if (getType(node) === 'leaf') {
-          return formatter.processLeaf(level, status, currentPath, oldValue, newValue);
-        }
-
-        const children = getChildren(node);
-
-        return formatter.processInternal(level, status, currentPath, iter(children, level + 1));
-      },
-    );
-  };
-
-  return formatter.processRoot(iter(diffTree));
-};
-
-export {
-  makeDiffTree,
-  format,
-};
+export default makeDiffTree;
