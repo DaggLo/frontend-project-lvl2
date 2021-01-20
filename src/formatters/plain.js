@@ -6,42 +6,48 @@ const statuses = {
   changed: 'updated',
 };
 
-const makePrefix = (status, path) => `Property '${path.join('.')}' was ${statuses[status]}`;
-const normallizeValue = (value) => {
+const stringify = (value) => {
   if (_.isPlainObject(value)) return '[complex value]';
   if (typeof value === 'string') return `'${value}'`;
 
   return value;
 };
 
-const formatOutput = (arr) => arr
-  .filter((e) => e)
-  .join('\n');
+const formatPlain = (diffTree) => {
+  const iter = (subTree, ancestor = []) => subTree
+    .flatMap(
+      (node) => {
+        const {
+          key, oldValue, newValue, type, children,
+        } = node;
+        const path = [...ancestor, key];
+        const statusPhrase = `Property '${path.join('.')}' was ${statuses[type]}`;
 
-const processLeaf = (level, status, path, oldValue, newValue) => {
-  const prefix = makePrefix(status, path);
+        switch (type) {
+          case 'added':
+            return `${statusPhrase} with value: ${stringify(newValue)}`;
 
-  switch (status) {
-    case 'added':
-      return `${prefix} with value: ${normallizeValue(newValue)}`;
+          case 'deleted':
+            return statusPhrase;
 
-    case 'changed':
-      return `${prefix}. From ${normallizeValue(oldValue)} to ${normallizeValue(newValue)}`;
+          case 'changed':
+            return `${statusPhrase}. From ${stringify(oldValue)} to ${stringify(newValue)}`;
 
-    case 'deleted':
-      return prefix;
+          case 'unchanged':
+            return null;
 
-    default:
-      return '';
-  }
+          case 'nested':
+            return iter(children, path);
+
+          default:
+            throw new Error(`Unknown node type - ${type}.`);
+        }
+      },
+    );
+
+  const strings = iter(diffTree);
+
+  return strings.filter((e) => e);
 };
 
-const processInternal = (level, status, path, subTree) => formatOutput(subTree);
-
-const processRoot = (outputArr) => formatOutput(outputArr);
-
-export {
-  processRoot,
-  processInternal,
-  processLeaf,
-};
+export default (data) => formatPlain(data).join('\n');

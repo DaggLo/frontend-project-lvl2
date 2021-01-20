@@ -1,5 +1,5 @@
 {
-  "name": "@DaggLo/gendiff",
+  "name": "@hexlet/code",
   "version": "0.1.0",
   "description": "Compare two text files and get their diff.",
   "bin": {
@@ -34,8 +34,8 @@
   },
   "homepage": "https://github.com/DaggLo/frontend-project-lvl2#readme",
   "dependencies": {
-    "commander": "^6.2.0",
-    "js-yaml": "^3.14.0",
+    "commander": "^7.1.0",
+    "js-yaml": "^4.0.0",
     "lodash": "^4.17.20"
   },
   "devDependencies": {

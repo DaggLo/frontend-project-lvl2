@@ -1,46 +1,19 @@
-import _ from 'lodash';
-
-import * as stylish from './stylish.js';
-import * as plain from './plain.js';
-import * as json from './json.js';
-
-import {
-  getType,
-  getPath,
-  getKey,
-  getOldValue,
-  getNewValue,
-  getStatus,
-  getChildren,
-} from '../node.js';
-
-const formatters = {
-  stylish,
-  plain,
-  json,
-};
+import formatToStylish from './stylish.js';
+import formatToPlain from './plain.js';
+import formatToJson from './json.js';
 
 export default (diffTree, formatterName) => {
-  const formatter = formatters[formatterName];
-  const iter = (subTree, level = 0) => {
-    const sorted = _.sortBy(subTree, [(node) => getKey(node)]);
-    return sorted.map(
-      (node) => {
-        const currentPath = getPath(node);
-        const oldValue = getOldValue(node);
-        const newValue = getNewValue(node);
-        const status = getStatus(node);
+  switch (formatterName) {
+    case 'stylish':
+      return formatToStylish(diffTree);
 
-        if (getType(node) === 'leaf') {
-          return formatter.processLeaf(level, status, currentPath, oldValue, newValue);
-        }
+    case 'plain':
+      return formatToPlain(diffTree);
 
-        const children = getChildren(node);
+    case 'json':
+      return formatToJson(diffTree);
 
-        return formatter.processInternal(level, status, currentPath, iter(children, level + 1));
-      },
-    );
-  };
-
-  return formatter.processRoot(iter(diffTree));
+    default:
+      throw new Error(`Unknown formatter "${formatterName}".`);
+  }
 };

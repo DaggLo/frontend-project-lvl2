@@ -1,56 +1,77 @@
 import _ from 'lodash';
 
+const replacerSymbol = ' ';
+const replacerCount = 4;
 const padding = ' ';
 const signs = {
   added: '+',
   deleted: '-',
   unchanged: ' ',
+  nested: ' ',
 };
 
-const makeMargin = (level) => `  ${'    '.repeat(level)}`;
-const makePrefix = (level, status, key) => [makeMargin(level), signs[status], padding, key, ':'].join('');
-const getKeyFromPath = (path) => path.slice(-1).toString();
+const stringify = (value, level = 1) => {
+  const iter = (currentValue, depth) => {
+    if (!_.isPlainObject(currentValue)) {
+      return currentValue;
+    }
 
-const processLeaf = (level, status, path, oldValue, newValue) => {
-  if (status === 'changed') {
-    return [
-      processLeaf(level, 'deleted', path, oldValue, newValue),
-      processLeaf(level, 'added', path, oldValue, newValue),
-    ].join('\n');
-  }
+    const newDepth = depth + 1;
+    const margin = replacerSymbol.repeat(newDepth * replacerCount);
+    const endMargin = replacerSymbol.repeat(depth * replacerCount);
+    const lines = Object
+      .entries(currentValue)
+      .map(
+        ([key, val]) => `${margin}${key}: ${iter(val, newDepth)}`,
+      );
 
-  const key = getKeyFromPath(path);
-  const prefix = makePrefix(level, status, key);
-  const value = status === 'added' ? newValue : oldValue;
+    return ['{', ...lines, `${endMargin}}`].join('\n');
+  };
 
-  if (!_.isPlainObject(value)) {
-    return [...prefix, ' ', `${value}`].join('');
-  }
-
-  const nextLevel = level + 1;
-  const endMargin = makeMargin(nextLevel).slice(0, -2);
-  const converted = Object.entries(value);
-  const traversed = converted.map(
-    ([innerKey, innerValue]) => processLeaf(nextLevel, 'unchanged', [...path, innerKey], innerValue),
-  );
-
-  return [...prefix, ' {\n', traversed.join('\n'), '\n', endMargin, '}'].join('');
+  return iter(value, level);
 };
 
-const processInternal = (level, status, path, subTree) => {
-  const key = getKeyFromPath(path);
-  const prefix = makePrefix(level, status, key);
-  const nextLevel = level + 1;
-  const endMargin = makeMargin(nextLevel).slice(0, -2);
-  const stringified = subTree.join('\n');
+const formatStylish = (diffTree) => {
+  const iter = (subTree, level = 0) => subTree
+    .flatMap(
+      (node) => {
+        const {
+          key, oldValue, newValue, type, children,
+        } = node;
+        const nextLevel = level + 1;
+        const margin = `  ${replacerSymbol.repeat(level * replacerCount)}`;
+        const endMargin = replacerSymbol.repeat(nextLevel * replacerCount);
 
-  return [...prefix, ' {\n', stringified, '\n', endMargin, '}'].join('');
+        switch (type) {
+          case 'unchanged':
+          case 'deleted':
+            return `${margin}${signs[type]}${padding}${key}: ${stringify(oldValue, nextLevel)}`;
+
+          case 'added':
+            return `${margin}${signs[type]}${padding}${key}: ${stringify(newValue, nextLevel)}`;
+
+          case 'changed':
+            return [
+              `${margin}${signs.deleted}${padding}${key}: ${stringify(oldValue, nextLevel)}`,
+              `${margin}${signs.added}${padding}${key}: ${stringify(newValue, nextLevel)}`,
+            ];
+
+          case 'nested':
+            return [
+              `${margin}${signs[type]}${padding}${key}: {`,
+              ...iter(children, nextLevel),
+              `${endMargin}}`,
+            ];
+
+          default:
+            throw new Error(`Unknown node type - ${type}.`);
+        }
+      },
+    );
+
+  const strings = iter(diffTree);
+
+  return ['{', ...strings, '}'];
 };
 
-const processRoot = (outputArr) => ['{', ...outputArr, '}'].join('\n');
-
-export {
-  processRoot,
-  processInternal,
-  processLeaf,
-};
+export default (data) => formatStylish(data).join('\n');

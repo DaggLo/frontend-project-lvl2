@@ -11,6 +11,6 @@ export default (data, format) => {
       return parseYAML(data);
 
     default:
-      throw new Error(`Unexpected file format ".${format}"`);
+      throw new Error(`Unexpected data format ".${format}"`);
   }
 };

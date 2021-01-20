@@ -17,7 +17,7 @@ describe('Standard cases.', () => {
   const expectedStylish = readFile('expected.stylish');
   const expectedPlain = readFile('expected.plain');
   const rawJson = readFile('expected.json');
-  const expectedJson = JSON.stringify(JSON.parse(rawJson));
+  const expectedJson = JSON.stringify(JSON.parse(rawJson), null, 2);
 
   const expectedOutputs = [
     ['stylish', expectedStylish],
