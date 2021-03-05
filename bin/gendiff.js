@@ -19,10 +19,6 @@ const packageConfig = fs.readFileSync(__filename, 'utf8');
 const { version } = JSON.parse(packageConfig);
 
 program
-  .storeOptionsAsProperties(false)
-  .passCommandToAction(false);
-
-program
   .version(version)
   .description('Compares two configuration files and shows a difference.')
   .option('-f, --format [type]', 'output format', 'stylish')
